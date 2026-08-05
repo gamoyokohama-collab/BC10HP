@@ -276,6 +276,15 @@ section{ padding: 140px 0; position: relative; }
 .gallery-grid figure.tall{ grid-row: auto; }
 .gallery-grid figure img{ transition: transform .7s ease; }
 .gallery-grid figure:hover img{ transform: scale(1.07); }
+.gallery-grid figure:nth-child(1) img,
+.gallery-grid figure:nth-child(2) img{
+  transform: scale(1.55);
+  transform-origin: center 85%;
+}
+.gallery-grid figure:nth-child(1):hover img,
+.gallery-grid figure:nth-child(2):hover img{
+  transform: scale(1.65);
+}
 .gallery-grid figure figcaption{
   position: absolute; left: 18px; bottom: 16px;
   color: var(--white);
