@@ -5,6 +5,33 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>BEAUTY COLLECTION 2026</title>
 <link rel="stylesheet" href="css/style.css">
+<style>
+  /* ナビ上部の申し込みボタン（既存CSSを変更せず追加分のみで完結） */
+  #navList .nav-entry-item {
+    display: flex;
+    align-items: center;
+  }
+  .nav-entry-btn {
+    display: inline-block;
+    padding: 0.5em 1.4em;
+    background: #d4a15a; /* サイトの主要カラーが分からないため仮色。style.cssの.ctaに合わせて調整可 */
+    color: #fff;
+    font-weight: bold;
+    border-radius: 999px;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: opacity 0.2s ease;
+  }
+  .nav-entry-btn:hover {
+    opacity: 0.85;
+  }
+  @media (max-width: 768px) {
+    .nav-entry-btn {
+      padding: 0.45em 1.1em;
+      font-size: 0.9em;
+    }
+  }
+</style>
 </head>
 <body>
 
@@ -17,6 +44,9 @@
       <li><a href="#exhibitor" onclick="closeNav()">EXHIBITOR</a></li>
       <li><a href="#gallery" onclick="closeNav()">GALLERY</a></li>
       <li><a href="#access" onclick="closeNav()">ACCESS</a></li>
+      <li class="nav-entry-item">
+        <a class="nav-entry-btn" href="https://liff.line.me/2010919674-PQFaj0oQ" target="_blank" rel="noopener">お申し込みはこちら</a>
+      </li>
     </ul>
     <button class="nav-toggle" id="navToggle" aria-label="メニュー">&#9776;</button>
   </nav>
@@ -36,7 +66,7 @@
       <div><p>PLACE</p><h3>産貿ホール マリネリア</h3></div>
     </div>
 
-    <a class="cta" href="#entry">事前登録はこちら</a>
+    <a class="cta" href="https://liff.line.me/2010919674-PQFaj0oQ" target="_blank" rel="noopener">事前登録はこちら</a>
   </div>
 </header>
 
@@ -165,7 +195,7 @@
     <div class="eyebrow">ENTRY</div>
     <h2>入場無料・事前登録制</h2>
     <p class="lead">年末商戦を前に、業界の「今」を体感してください。</p>
-    <a class="cta" href="#">参加申し込みはこちら</a>
+    <a class="cta" href="https://liff.line.me/2010919674-PQFaj0oQ" target="_blank" rel="noopener">参加申し込みはこちら</a>
   </div>
 </section>
 
