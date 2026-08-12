@@ -6,29 +6,95 @@
 <title>BEAUTY COLLECTION 2026</title>
 <link rel="stylesheet" href="css/style.css">
 <style>
-  /* ナビ上部の申し込みボタン（既存CSSを変更せず追加分のみで完結） */
-  #navList .nav-entry-item {
+  /* ==== LINE申し込みボタン関連（追加分。既存CSSは変更しない） ==== */
+  :root {
+    --line-green: #06c755; /* LINE公式ブランドカラー */
+    --line-green-dark: #05a648;
+  }
+
+  /* ナビ内、ハンバーガーメニューの外に常時表示する申し込みボタン */
+  .nav-entry-fixed {
     display: flex;
     align-items: center;
+    margin-left: auto;
+    margin-right: 12px;
   }
-  .nav-entry-btn {
-    display: inline-block;
-    padding: 0.5em 1.4em;
-    background: #d4a15a; /* サイトの主要カラーが分からないため仮色。style.cssの.ctaに合わせて調整可 */
+  .line-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45em;
+    padding: 0.55em 1.3em;
+    background: var(--line-green);
     color: #fff;
     font-weight: bold;
     border-radius: 999px;
     text-decoration: none;
     white-space: nowrap;
-    transition: opacity 0.2s ease;
+    line-height: 1;
+    box-shadow: 0 2px 8px rgba(6, 199, 85, 0.35);
+    transition: background 0.2s ease, transform 0.15s ease;
   }
-  .nav-entry-btn:hover {
+  .line-btn:hover {
+    background: var(--line-green-dark);
+  }
+  .line-btn:active {
+    transform: scale(0.97);
+  }
+  .line-btn .line-icon {
+    display: inline-block;
+    width: 1.15em;
+    height: 1.15em;
+    flex-shrink: 0;
+  }
+
+  /* ヒーロー / ENTRYセクションのCTAをLINEボタンとして統一 */
+  a.cta.line-btn {
+    font-size: inherit;
+    padding: 0.75em 1.8em;
+  }
+
+  .cta-note {
+    display: flex;
+    align-items: center;
+    gap: 0.4em;
+    margin-top: 0.7em;
+    font-size: 0.82em;
     opacity: 0.85;
   }
-  @media (max-width: 768px) {
-    .nav-entry-btn {
-      padding: 0.45em 1.1em;
-      font-size: 0.9em;
+  .cta-note .line-icon {
+    width: 1em;
+    height: 1em;
+    flex-shrink: 0;
+  }
+
+  /* ナビ上のボタンはスマホ幅では非表示にし、下部固定バーに一本化（誤タップ防止・視認性優先） */
+  @media (max-width: 600px) {
+    .nav-entry-fixed { display: none; }
+    body { padding-bottom: 68px; } /* 下部固定バー分の余白 */
+  }
+
+  /* スマホ専用：画面下部に常時固定されるLINE申し込みバー */
+  .mobile-line-bar {
+    display: none;
+  }
+  @media (max-width: 600px) {
+    .mobile-line-bar {
+      display: flex;
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 999;
+      padding: 10px 14px calc(10px + env(safe-area-inset-bottom));
+      background: #fff;
+      box-shadow: 0 -2px 12px rgba(0,0,0,0.12);
+    }
+    .mobile-line-bar .line-btn {
+      width: 100%;
+      justify-content: center;
+      padding: 0.85em 1em;
+      font-size: 1.02em;
+      border-radius: 10px;
     }
   }
 </style>
@@ -44,10 +110,14 @@
       <li><a href="#exhibitor" onclick="closeNav()">EXHIBITOR</a></li>
       <li><a href="#gallery" onclick="closeNav()">GALLERY</a></li>
       <li><a href="#access" onclick="closeNav()">ACCESS</a></li>
-      <li class="nav-entry-item">
-        <a class="nav-entry-btn" href="https://liff.line.me/2010919674-PQFaj0oQ" target="_blank" rel="noopener">お申し込みはこちら</a>
-      </li>
     </ul>
+    <!-- ハンバーガーの外に常時表示（PC・タブレット幅）。スマホ幅では下部固定バーに切り替え -->
+    <div class="nav-entry-fixed">
+      <a class="line-btn" href="https://liff.line.me/2010919674-PQFaj0oQ" target="_blank" rel="noopener">
+        <svg class="line-icon" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M12 2C6.48 2 2 5.69 2 10.24c0 4.08 3.55 7.5 8.35 8.14.32.07.77.21.88.49.1.25.07.65.03.9l-.14.86c-.04.25-.2.99.87.54 1.06-.45 5.73-3.37 7.82-5.77C21.16 13.6 22 11.98 22 10.24 22 5.69 17.52 2 12 2z"/></svg>
+        LINEで申し込む
+      </a>
+    </div>
     <button class="nav-toggle" id="navToggle" aria-label="メニュー">&#9776;</button>
   </nav>
 
@@ -66,7 +136,14 @@
       <div><p>PLACE</p><h3>産貿ホール マリネリア</h3></div>
     </div>
 
-    <a class="cta" href="https://liff.line.me/2010919674-PQFaj0oQ" target="_blank" rel="noopener">事前登録はこちら</a>
+    <a class="cta line-btn" href="https://liff.line.me/2010919674-PQFaj0oQ" target="_blank" rel="noopener">
+      <svg class="line-icon" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M12 2C6.48 2 2 5.69 2 10.24c0 4.08 3.55 7.5 8.35 8.14.32.07.77.21.88.49.1.25.07.65.03.9l-.14.86c-.04.25-.2.99.87.54 1.06-.45 5.73-3.37 7.82-5.77C21.16 13.6 22 11.98 22 10.24 22 5.69 17.52 2 12 2z"/></svg>
+      事前登録はこちら
+    </a>
+    <span class="cta-note">
+      <svg class="line-icon" viewBox="0 0 24 24" fill="var(--line-green)" aria-hidden="true"><path d="M12 2C6.48 2 2 5.69 2 10.24c0 4.08 3.55 7.5 8.35 8.14.32.07.77.21.88.49.1.25.07.65.03.9l-.14.86c-.04.25-.2.99.87.54 1.06-.45 5.73-3.37 7.82-5.77C21.16 13.6 22 11.98 22 10.24 22 5.69 17.52 2 12 2z"/></svg>
+      LINEでの事前登録となります
+    </span>
   </div>
 </header>
 
@@ -195,7 +272,14 @@
     <div class="eyebrow">ENTRY</div>
     <h2>入場無料・事前登録制</h2>
     <p class="lead">年末商戦を前に、業界の「今」を体感してください。</p>
-    <a class="cta" href="https://liff.line.me/2010919674-PQFaj0oQ" target="_blank" rel="noopener">参加申し込みはこちら</a>
+    <a class="cta line-btn" href="https://liff.line.me/2010919674-PQFaj0oQ" target="_blank" rel="noopener">
+      <svg class="line-icon" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M12 2C6.48 2 2 5.69 2 10.24c0 4.08 3.55 7.5 8.35 8.14.32.07.77.21.88.49.1.25.07.65.03.9l-.14.86c-.04.25-.2.99.87.54 1.06-.45 5.73-3.37 7.82-5.77C21.16 13.6 22 11.98 22 10.24 22 5.69 17.52 2 12 2z"/></svg>
+      参加申し込みはこちら
+    </a>
+    <span class="cta-note">
+      <svg class="line-icon" viewBox="0 0 24 24" fill="var(--line-green)" aria-hidden="true"><path d="M12 2C6.48 2 2 5.69 2 10.24c0 4.08 3.55 7.5 8.35 8.14.32.07.77.21.88.49.1.25.07.65.03.9l-.14.86c-.04.25-.2.99.87.54 1.06-.45 5.73-3.37 7.82-5.77C21.16 13.6 22 11.98 22 10.24 22 5.69 17.52 2 12 2z"/></svg>
+      LINEでの事前登録となります
+    </span>
   </div>
 </section>
 
@@ -204,6 +288,14 @@
 <footer>
   <p>&copy;2026 BEAUTY COLLECTION</p>
 </footer>
+
+<!-- スマホ幅のみ表示：画面下部固定のLINE申し込みバー -->
+<div class="mobile-line-bar">
+  <a class="line-btn" href="https://liff.line.me/2010919674-PQFaj0oQ" target="_blank" rel="noopener">
+    <svg class="line-icon" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M12 2C6.48 2 2 5.69 2 10.24c0 4.08 3.55 7.5 8.35 8.14.32.07.77.21.88.49.1.25.07.65.03.9l-.14.86c-.04.25-.2.99.87.54 1.06-.45 5.73-3.37 7.82-5.77C21.16 13.6 22 11.98 22 10.24 22 5.69 17.52 2 12 2z"/></svg>
+    LINEで申し込む
+  </a>
+</div>
 
 <script src="js/main.js"></script>
 </body>
