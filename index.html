@@ -232,70 +232,116 @@
     }
   }
 
-  /* ==== 会場内キッチンカーのご案内（控えめな扱い。イベント本編より目立たせない） ==== */
-  .foodtruck-note {
-    margin-top: 2.4em;
-    padding-top: 1.8em;
-    border-top: 1px solid #ececec;
+  /* ==== FOOD（会場内キッチンカー紹介）セクション ==== */
+  #food {
+    background: #faf8f5;
   }
-  .foodtruck-note-title {
-    font-size: 0.85em;
-    font-weight: bold;
-    color: #888;
-    letter-spacing: 0.02em;
-    margin-bottom: 1em;
+  .food-lead {
+    margin-top: 0.6em;
+    margin-bottom: 2.2em;
+    color: #666;
   }
-  .foodtruck-cards {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
+  .food-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 32px;
   }
-  .foodtruck-card {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 10px 16px;
-    border: 1px solid #eee;
-    border-radius: 999px;
-    text-decoration: none;
-    color: inherit;
-    flex: 1 1 260px;
-    max-width: 320px;
-    transition: border-color 0.15s ease;
-  }
-  .foodtruck-card:hover {
-    border-color: #ccc;
-  }
-  .foodtruck-thumb {
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
+  .food-card {
+    background: #fff;
+    border-radius: 20px;
     overflow: hidden;
-    background: #f5f5f5;
-    flex-shrink: 0;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.07);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
-  .foodtruck-thumb img {
+  .food-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+  }
+  .food-hero {
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: #eee;
+  }
+  .food-hero img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    display: block;
   }
-  .foodtruck-name {
-    font-size: 0.85em;
+  .food-hero--split {
+    display: flex;
+  }
+  .food-hero--split img {
+    flex: 1;
+    width: auto;
+    height: 100%;
+    object-fit: cover;
+    border-left: 2px solid #fff;
+  }
+  .food-hero--split img:first-child {
+    border-left: none;
+  }
+  .food-body {
+    padding: 26px 28px 30px;
+  }
+  .food-name {
+    font-size: 1.2em;
     font-weight: bold;
-    color: #444;
-    line-height: 1.4;
+    color: #333;
+    margin-bottom: 0.6em;
   }
-  .foodtruck-desc {
-    font-size: 0.75em;
-    color: #999;
-    margin-top: 0.15em;
+  .food-name span {
+    display: inline-block;
+    margin-left: 0.6em;
+    font-size: 0.58em;
+    font-weight: normal;
+    color: #aaa;
+    letter-spacing: 0.02em;
   }
+  .food-desc {
+    font-size: 0.88em;
+    line-height: 1.85;
+    color: #666;
+    margin-bottom: 1.3em;
+  }
+  .food-menu {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 1.4em;
+  }
+  .food-menu-item {
+    flex: 1;
+    text-align: center;
+  }
+  .food-menu-item img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 12px;
+    display: block;
+    margin-bottom: 7px;
+  }
+  .food-menu-item span {
+    font-size: 0.72em;
+    color: #888;
+  }
+  .food-link {
+    display: inline-block;
+    font-size: 0.82em;
+    font-weight: bold;
+    text-decoration: none;
+  }
+  .food-card--wakyu .food-link { color: #c1560f; }
+  .food-card--kakitsubata .food-link { color: #c1387a; }
   @media (max-width: 600px) {
-    .foodtruck-cards {
-      flex-direction: column;
+    .food-grid {
+      grid-template-columns: 1fr;
+      gap: 22px;
     }
-    .foodtruck-card {
-      max-width: none;
+    .food-body {
+      padding: 22px 20px 26px;
     }
   }
 </style>
@@ -310,6 +356,7 @@
       <li><a href="#feature" onclick="closeNav()">FEATURE</a></li>
       <li><a href="#exhibitor" onclick="closeNav()">EXHIBITOR</a></li>
       <li><a href="#gallery" onclick="closeNav()">GALLERY</a></li>
+      <li><a href="#food" onclick="closeNav()">FOOD</a></li>
       <li><a href="#access" onclick="closeNav()">ACCESS</a></li>
     </ul>
     <!-- ハンバーガーの外に常時表示（PC・タブレット幅）。スマホ幅では下部固定バーに切り替え -->
@@ -439,6 +486,50 @@
   </div>
 </section>
 
+<section id="food">
+  <div class="container">
+    <div class="eyebrow">FOOD</div>
+    <h2 class="section-title">会場を、もっと楽しく。</h2>
+    <p class="food-lead">お昼や休憩のひとときに、2台のキッチンカーが会場にやってきます。</p>
+
+    <div class="food-grid">
+      <div class="food-card food-card--wakyu">
+        <div class="food-hero">
+          <img src="images/food-wakyu-hero.jpg" alt="キッチン和久のキッチンカー">
+        </div>
+        <div class="food-body">
+          <div class="food-name">キッチン和久<span>Kitchen WAKYU</span></div>
+          <p class="food-desc">元板前が手がける、こだわりの創作フード。しっとり柔らかなローストビーフサンドや、食後にうれしいティラミスまで。しっかり食べて午後の商談に備えられます。</p>
+          <div class="food-menu">
+            <div class="food-menu-item">
+              <img src="images/food-wakyu-sandwich.jpg" alt="ローストビーフサンド">
+              <span>ローストビーフサンド</span>
+            </div>
+            <div class="food-menu-item">
+              <img src="images/food-wakyu-tiramisu.jpg" alt="ティラミス">
+              <span>ティラミス</span>
+            </div>
+          </div>
+          <a class="food-link" href="https://www.instagram.com/kitchen_wakyu/" target="_blank" rel="noopener">Instagramを見る →</a>
+        </div>
+      </div>
+
+      <div class="food-card food-card--kakitsubata">
+        <div class="food-hero food-hero--split">
+          <img src="images/food-kakitsubata-1.jpg" alt="杜若カフェの生シェイク（いちご）">
+          <img src="images/food-kakitsubata-2.jpg" alt="杜若カフェの生シェイク（ブルーベリー）">
+          <img src="images/food-kakitsubata-3.jpg" alt="杜若カフェの生シェイク（キャラメル）">
+        </div>
+        <div class="food-body">
+          <div class="food-name">杜若カフェ<span>Kakitsubata Cafe</span></div>
+          <p class="food-desc">その場で仕上げる、ひんやり特製生シェイク。いちご・ブルーベリー・キャラメルなど、目移りしてしまうラインナップです。休憩がてらぜひお立ち寄りください。</p>
+          <a class="food-link" href="https://www.instagram.com/kakitsubata_cafe/" target="_blank" rel="noopener">Instagramを見る →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section id="news">
   <div class="container">
     <div class="eyebrow">NEWS</div>
@@ -446,27 +537,7 @@
     <div class="news-list">
       <div class="news-row"><div class="date">2026.7.31</div><div class="desc">ホームページを公開しました</div></div>
       <div class="news-row"><div class="date">2026.8&nbsp;&mdash;</div><div class="desc">出展メーカーを公開予定です</div></div>
-      <div class="news-row"><div class="date">2026.9&nbsp;&mdash;</div><div class="desc">会場内にキッチンカーが出店します</div></div>
-    </div>
-
-    <div class="foodtruck-note">
-      <p class="foodtruck-note-title">会場内キッチンカーのご案内</p>
-      <div class="foodtruck-cards">
-        <a class="foodtruck-card" href="https://www.instagram.com/kakitsubata_cafe/" target="_blank" rel="noopener">
-          <div class="foodtruck-thumb"><img src="images/foodtruck-kakitsubata.jpg" alt="杜若カフェ"></div>
-          <div>
-            <div class="foodtruck-name">杜若カフェ</div>
-            <div class="foodtruck-desc">ドリンク・スイーツのキッチンカー</div>
-          </div>
-        </a>
-        <a class="foodtruck-card" href="https://www.instagram.com/kitchen_wakyu/" target="_blank" rel="noopener">
-          <div class="foodtruck-thumb"><img src="images/foodtruck-wakyu.jpg" alt="キッチン和久"></div>
-          <div>
-            <div class="foodtruck-name">キッチン和久</div>
-            <div class="foodtruck-desc">創作料理のキッチンカー</div>
-          </div>
-        </a>
-      </div>
+      <div class="news-row"><div class="date">2026.9&nbsp;&mdash;</div><div class="desc">会場内にキッチンカーが出店します（<a href="#food">詳しくはこちら</a>）</div></div>
     </div>
   </div>
 </section>
