@@ -231,6 +231,73 @@
       -webkit-line-clamp: 2;
     }
   }
+
+  /* ==== 会場内キッチンカーのご案内（控えめな扱い。イベント本編より目立たせない） ==== */
+  .foodtruck-note {
+    margin-top: 2.4em;
+    padding-top: 1.8em;
+    border-top: 1px solid #ececec;
+  }
+  .foodtruck-note-title {
+    font-size: 0.85em;
+    font-weight: bold;
+    color: #888;
+    letter-spacing: 0.02em;
+    margin-bottom: 1em;
+  }
+  .foodtruck-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .foodtruck-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px;
+    border: 1px solid #eee;
+    border-radius: 999px;
+    text-decoration: none;
+    color: inherit;
+    flex: 1 1 260px;
+    max-width: 320px;
+    transition: border-color 0.15s ease;
+  }
+  .foodtruck-card:hover {
+    border-color: #ccc;
+  }
+  .foodtruck-thumb {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: #f5f5f5;
+    flex-shrink: 0;
+  }
+  .foodtruck-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .foodtruck-name {
+    font-size: 0.85em;
+    font-weight: bold;
+    color: #444;
+    line-height: 1.4;
+  }
+  .foodtruck-desc {
+    font-size: 0.75em;
+    color: #999;
+    margin-top: 0.15em;
+  }
+  @media (max-width: 600px) {
+    .foodtruck-cards {
+      flex-direction: column;
+    }
+    .foodtruck-card {
+      max-width: none;
+    }
+  }
 </style>
 </head>
 <body>
@@ -379,6 +446,27 @@
     <div class="news-list">
       <div class="news-row"><div class="date">2026.7.31</div><div class="desc">ホームページを公開しました</div></div>
       <div class="news-row"><div class="date">2026.8&nbsp;&mdash;</div><div class="desc">出展メーカーを公開予定です</div></div>
+      <div class="news-row"><div class="date">2026.9&nbsp;&mdash;</div><div class="desc">会場内にキッチンカーが出店します</div></div>
+    </div>
+
+    <div class="foodtruck-note">
+      <p class="foodtruck-note-title">会場内キッチンカーのご案内</p>
+      <div class="foodtruck-cards">
+        <a class="foodtruck-card" href="https://www.instagram.com/kakitsubata_cafe/" target="_blank" rel="noopener">
+          <div class="foodtruck-thumb"><img src="images/foodtruck-kakitsubata.jpg" alt="杜若カフェ"></div>
+          <div>
+            <div class="foodtruck-name">杜若カフェ</div>
+            <div class="foodtruck-desc">ドリンク・スイーツのキッチンカー</div>
+          </div>
+        </a>
+        <a class="foodtruck-card" href="https://www.instagram.com/kitchen_wakyu/" target="_blank" rel="noopener">
+          <div class="foodtruck-thumb"><img src="images/foodtruck-wakyu.jpg" alt="キッチン和久"></div>
+          <div>
+            <div class="foodtruck-name">キッチン和久</div>
+            <div class="foodtruck-desc">創作料理のキッチンカー</div>
+          </div>
+        </a>
+      </div>
     </div>
   </div>
 </section>
