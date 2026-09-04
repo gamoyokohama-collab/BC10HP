@@ -12,6 +12,13 @@
     --line-green-dark: #05a648;
   }
 
+  /* iOSのSafariは、狭いグリッド/フレックス列内の文字を自動拡大することがあり、
+     結果として出展メーカー名が1文字ずつ縦に積まれて見えてしまう。それを防止する。 */
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
   /* ナビ内、ハンバーガーメニューの外に常時表示する申し込みボタン */
   .nav-entry-fixed {
     display: flex;
@@ -191,6 +198,8 @@
     font-weight: bold;
     font-size: 1em;
     line-height: 1.35;
+    flex: 1 1 auto;
+    min-width: 0;
   }
   .exhibitor-catch {
     font-size: 0.83em;
@@ -216,7 +225,7 @@
   }
   @media (max-width: 600px) {
     .exhibitor-grid {
-      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      grid-template-columns: 1fr;
       gap: 12px;
     }
     .exhibitor-card {
@@ -228,7 +237,7 @@
       height: 44px;
     }
     .exhibitor-catch {
-      -webkit-line-clamp: 2;
+      -webkit-line-clamp: 3;
     }
   }
 
