@@ -10,6 +10,20 @@
   :root {
     --line-green: #06c755; /* LINE公式ブランドカラー */
     --line-green-dark: #05a648;
+
+    /* 場内マップのエリア色（貼り出しマップの配色に合わせる） */
+    --area-a: #f2b48c;
+    --area-a-bg: #fbe3d4;
+    --area-b: #f3d38f;
+    --area-b-bg: #fdf1d9;
+    --area-c: #9fd0aa;
+    --area-c-bg: #dcefe0;
+    --area-d: #eea283;
+    --area-d-bg: #fadacb;
+    --area-e: #a7afdc;
+    --area-e-bg: #dde0f2;
+    --area-w: #eeb3cb;
+    --area-w-bg: #fbe6ee;
   }
 
   /* iOSのSafariは、狭いグリッド/フレックス列内の文字を自動拡大することがあり、
@@ -105,6 +119,101 @@
     }
   }
 
+  /* ==== 場内マップ（MAP）セクション ==== */
+  .map-lead {
+    margin-top: 0.6em;
+    margin-bottom: 1.6em;
+    color: #666;
+    line-height: 1.8;
+  }
+  .map-viewer {
+    border: 1px solid #e6e6e6;
+    border-radius: 14px;
+    background: #fff;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .map-viewer img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .map-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px 18px;
+    margin-top: 12px;
+    font-size: 0.85em;
+  }
+  .map-actions a {
+    font-weight: bold;
+    color: inherit;
+  }
+  .map-scroll-hint {
+    display: none;
+    color: #888;
+  }
+  .map-note {
+    margin-top: 8px;
+    font-size: 0.75em;
+    color: #999;
+  }
+  .map-areas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 1.4em;
+  }
+  @media (max-width: 600px) {
+    /* スマホではフロア部分だけの画像を少し大きめに表示し、横スクロールで見られるようにする */
+    .map-viewer img {
+      width: 720px;
+      max-width: none;
+    }
+    .map-scroll-hint {
+      display: block;
+    }
+  }
+
+  /* エリア絞り込みボタン（マップ・出展メーカー一覧で共通） */
+  .area-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45em;
+    padding: 0.45em 0.95em;
+    border: 1px solid #ddd;
+    border-radius: 999px;
+    background: #fff;
+    font: inherit;
+    font-size: 0.85em;
+    color: #333;
+    cursor: pointer;
+    line-height: 1.2;
+  }
+  .area-chip .dot {
+    width: 0.8em;
+    height: 0.8em;
+    border-radius: 50%;
+    background: var(--chip-color, #ccc);
+    flex-shrink: 0;
+  }
+  .area-chip .num {
+    color: #999;
+    font-size: 0.88em;
+  }
+  .area-chip[aria-pressed="true"] {
+    background: var(--chip-bg, #f2f2f2);
+    border-color: var(--chip-color, #999);
+    font-weight: bold;
+  }
+  .area-chip:focus-visible,
+  .exhibitor-search:focus-visible {
+    outline: 2px solid #333;
+    outline-offset: 2px;
+  }
+
   /* ==== 出展メーカー一覧（EXHIBITOR）関連 ==== */
   .exhibitor-toolbar {
     display: flex;
@@ -112,7 +221,7 @@
     align-items: center;
     justify-content: space-between;
     gap: 12px;
-    margin: 1.5em 0 1.5em;
+    margin: 1.5em 0 1em;
   }
   .exhibitor-search {
     flex: 1 1 240px;
@@ -132,10 +241,35 @@
     opacity: 0.65;
     white-space: nowrap;
   }
+  .exhibitor-areas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 1.6em;
+  }
   .exhibitor-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 18px;
+  }
+  .exhibitor-group-head {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: baseline;
+    gap: 0.6em;
+    margin-top: 1.2em;
+    padding-bottom: 0.5em;
+    border-bottom: 3px solid var(--group-color, #ddd);
+    font-weight: bold;
+    font-size: 1.05em;
+  }
+  .exhibitor-group-head:first-child {
+    margin-top: 0;
+  }
+  .exhibitor-group-head small {
+    font-weight: normal;
+    font-size: 0.75em;
+    color: #999;
   }
   .exhibitor-card {
     display: flex;
@@ -143,6 +277,7 @@
     gap: 10px;
     padding: 20px;
     border: 1px solid #ececec;
+    border-left: 5px solid var(--card-color, #ececec);
     border-radius: 16px;
     background: #fff;
     text-decoration: none;
@@ -155,23 +290,10 @@
     transform: translateY(-3px);
     box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
   }
-  .exhibitor-booth {
-    position: absolute;
-    top: 14px;
-    right: 14px;
-    background: var(--line-green, #06c755);
-    color: #fff;
-    font-size: 0.7em;
-    font-weight: bold;
-    padding: 0.25em 0.65em;
-    border-radius: 999px;
-    line-height: 1.4;
-  }
   .exhibitor-head {
     display: flex;
     align-items: center;
     gap: 12px;
-    padding-right: 34px; /* ブース番号バッジと重ならないように */
   }
   .exhibitor-logo {
     width: 56px;
@@ -210,8 +332,26 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
-  .exhibitor-link {
+  .exhibitor-foot {
     margin-top: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .exhibitor-area {
+    display: inline-block;
+    background: var(--card-bg, #f2f2f2);
+    color: #333;
+    font-size: 0.72em;
+    font-weight: bold;
+    padding: 0.3em 0.75em;
+    border-radius: 999px;
+    line-height: 1.4;
+    white-space: nowrap;
+  }
+  .exhibitor-link {
+    margin-left: auto;
     font-size: 0.78em;
     font-weight: bold;
     color: var(--line-green, #06c755);
@@ -353,6 +493,11 @@
       padding: 22px 20px 26px;
     }
   }
+
+  @media (prefers-reduced-motion: reduce) {
+    .exhibitor-card, .food-card, .line-btn { transition: none; }
+    html { scroll-behavior: auto; }
+  }
 </style>
 </head>
 <body>
@@ -363,6 +508,7 @@
     <ul id="navList">
       <li><a href="#about" onclick="closeNav()">ABOUT</a></li>
       <li><a href="#feature" onclick="closeNav()">FEATURE</a></li>
+      <li><a href="#map" onclick="closeNav()">MAP</a></li>
       <li><a href="#exhibitor" onclick="closeNav()">EXHIBITOR</a></li>
       <li><a href="#gallery" onclick="closeNav()">GALLERY</a></li>
       <li><a href="#food" onclick="closeNav()">FOOD</a></li>
@@ -458,15 +604,41 @@
   </div>
 </section>
 
+<section id="map">
+  <div class="container">
+    <div class="eyebrow">MAP</div>
+    <h2 class="section-title">場内マップ</h2>
+    <p class="map-lead">会場は受付を入って、A〜Eの5エリアと問屋エリアに分かれています。<br>
+      右奥はキッチンカーのある「カフェ＆商談エリア」です。</p>
+
+    <div class="map-viewer">
+      <picture>
+        <!-- スマホ：フロア部分のみ（凡例は下のエリアボタンと出展メーカー一覧で代替） -->
+        <source media="(max-width: 600px)" srcset="images/floor-map-sp.png">
+        <img src="images/floor-map.png" width="2481" height="1557"
+             alt="BEAUTY COLLECTION 2026 場内マップ。受付から入り、A〜Eエリアと問屋エリア、カフェ＆商談エリアに分かれています。" loading="lazy">
+      </picture>
+    </div>
+    <div class="map-actions">
+      <span class="map-scroll-hint">マップは横にスクロールできます</span>
+      <a href="images/floor-map.png" target="_blank" rel="noopener">マップを拡大して見る</a>
+    </div>
+    <p class="map-note">※配置は予告なく変更される場合がございます。予めご了承ください。</p>
+
+    <div class="map-areas" id="mapAreas" aria-label="エリアごとの出展メーカーを見る"></div>
+  </div>
+</section>
+
 <section id="exhibitor">
   <div class="container">
     <div class="eyebrow">EXHIBITOR</div>
     <h2 class="section-title">出展メーカー一覧</h2>
 
     <div class="exhibitor-toolbar">
-      <input type="text" id="exhibitorSearch" class="exhibitor-search" placeholder="メーカー名で検索">
-      <div class="exhibitor-count" id="exhibitorCount"></div>
+      <input type="search" id="exhibitorSearch" class="exhibitor-search" placeholder="メーカー名で検索" aria-label="メーカー名で検索">
+      <div class="exhibitor-count" id="exhibitorCount" aria-live="polite"></div>
     </div>
+    <div class="exhibitor-areas" id="exhibitorAreas" aria-label="エリアで絞り込む"></div>
 
     <div class="exhibitor-grid" id="exhibitorGrid"></div>
   </div>
@@ -499,7 +671,7 @@
   <div class="container">
     <div class="eyebrow">FOOD</div>
     <h2 class="section-title">会場を、もっと楽しく。</h2>
-    <p class="food-lead">お昼や休憩のひとときに、2台のキッチンカーが会場にやってきます。</p>
+    <p class="food-lead">お昼や休憩のひとときに、2台のキッチンカーが会場の「カフェ＆商談エリア」にやってきます（<a href="#map">場内マップ</a>）。</p>
 
     <div class="food-grid">
       <div class="food-card food-card--wakyu">
@@ -544,9 +716,10 @@
     <div class="eyebrow">NEWS</div>
     <h2 class="section-title">お知らせ</h2>
     <div class="news-list">
+      <div class="news-row"><div class="date">2026.9.28</div><div class="desc">場内マップを公開しました（<a href="#map">詳しくはこちら</a>）</div></div>
+      <div class="news-row"><div class="date">2026.9</div><div class="desc">会場内にキッチンカーが出店します（<a href="#food">詳しくはこちら</a>）</div></div>
+      <div class="news-row"><div class="date">2026.8</div><div class="desc">出展メーカーを公開しました（<a href="#exhibitor">詳しくはこちら</a>）</div></div>
       <div class="news-row"><div class="date">2026.7.31</div><div class="desc">ホームページを公開しました</div></div>
-      <div class="news-row"><div class="date">2026.8&nbsp;&mdash;</div><div class="desc">出展メーカーを公開予定です</div></div>
-      <div class="news-row"><div class="date">2026.9&nbsp;&mdash;</div><div class="desc">会場内にキッチンカーが出店します（<a href="#food">詳しくはこちら</a>）</div></div>
     </div>
   </div>
 </section>
@@ -556,8 +729,8 @@
     <div>
       <div class="eyebrow">ACCESS</div>
       <h3>産貿ホール マリネリア</h3>
-      <p>〒231-0001 横浜市中区新港1-2-3</p>
-      <p>みなとみらい線「日本大通り駅」より徒歩8分</p>
+      <p>〒231-0023 横浜市中区山下町2 産業貿易センタービル1F</p>
+      <p>みなとみらい線「日本大通り駅」3番出口より徒歩約3分</p>
     </div>
     <div class="map-frame">
       <iframe
@@ -606,88 +779,122 @@
 <script>
 (function () {
   // ------------------------------------------------------------
+  // エリア定義（場内マップの色・並び順と対応）
+  // ------------------------------------------------------------
+  const AREAS = [
+    { key:"A", label:"Aエリア",   color:"var(--area-a)", bg:"var(--area-a-bg)" },
+    { key:"B", label:"Bエリア",   color:"var(--area-b)", bg:"var(--area-b-bg)" },
+    { key:"C", label:"Cエリア",   color:"var(--area-c)", bg:"var(--area-c-bg)" },
+    { key:"D", label:"Dエリア",   color:"var(--area-d)", bg:"var(--area-d-bg)" },
+    { key:"E", label:"Eエリア",   color:"var(--area-e)", bg:"var(--area-e-bg)" },
+    { key:"W", label:"問屋エリア", color:"var(--area-w)", bg:"var(--area-w-bg)" }
+  ];
+  const OTHER = { key:"", label:"その他の出展メーカー", color:"#ddd", bg:"#f2f2f2" };
+  function areaInfo(key) {
+    return AREAS.find(function (a) { return a.key === key; }) || OTHER;
+  }
+
+  // ------------------------------------------------------------
   // 出展メーカーデータ
-  //   id    : ロゴファイル名のもと（images/logos/{id}.拡張子 を用意すると自動表示）
+  //   id    : ロゴファイル名のもと（images/logos/{id}.png を用意すると自動表示）
   //   name  : メーカー名
+  //   kana  : 検索用の別表記（カタカナ読み・マップ上の表記など。スペース区切り）
   //   url   : 公式HP（無い場合は "" のままでOK）
   //   catch : キャッチコピー（無い場合は "" のままでOK）
-  //   booth : ブース番号（決まったら数値に変更。未定は null のまま）
+  //   area  : 場内マップのエリア（"A"〜"E"、問屋エリアは "W"。未確定は "" ）
   // ------------------------------------------------------------
   const exhibitors = [
-    { id:"m01", name:"えがお老眼鏡", url:"https://egao-salon.jp/reading-glasses/", catch:"えがお老眼鏡は、「アクセサリーやファッションとして楽しむ」新しいスタイルを提案しています。", booth:null },
-    { id:"m02", name:"セフィーヌ", url:"https://cefinecosmetics.co.jp/", catch:"やさしさも効果も実感できる自然派コスメ。冬のお肌悩みを解決へ導く、効果実感型アイテムをぜひご体験ください！", booth:null },
-    { id:"m03", name:"GOALD JAPAN", url:"https://coar.jp/", catch:"メンズスタイルのクオリティを高める、最新トレンド商材をご体感ください。", booth:null },
-    { id:"m04", name:"TooB", url:"https://toob.tokyo/", catch:"次世代レチノールスキンケア", booth:null },
-    { id:"m05", name:"株式会社ワイマック ジュエル・コスメティックス", url:"https://jewel-cosme.jp/", catch:"エイジングケアの商材をご用意しております！", booth:null },
-    { id:"m06", name:"株式会社サインド", url:"https://cynd.co.jp/", catch:"他店と圧倒的な差をつける、次世代のサロンDX（デジタルトランスフォーメーション）を体感ください！予約アプリと連動するスマートミラーのご紹介。サロンの未来を変える「実機体験」をブースで実施します。", booth:null },
-    { id:"m07", name:"フェザー株式会社", url:"https://leonka.jp/", catch:"着替える、髪色。ちょいぷらす（10/1発売新商品あります）", booth:null },
-    { id:"m08", name:"（有）水谷理美容鋏製作所（ミズタニシザーズ）", url:"https://www.mizutani-scissors.com/", catch:"", booth:null },
-    { id:"m09", name:"オラプレックス/オリオセタ", url:"https://olaplex.jp/", catch:"ガモウオリジナルメーカー", booth:null },
-    { id:"m10", name:"タカラベルモント(株)", url:"https://www.takarabelmont.com/", catch:"", booth:null },
-    { id:"m11", name:"株式会社マイクロバブル・ジャパン", url:"https://marbb.com/en/", catch:"お水のみの髪質改善して見ませんか？", booth:null },
-    { id:"m12", name:"株式会社RadiAct（PROLASH）", url:"https://prolash.info/", catch:"まつげエクステのLED施術用ライトを体験可能です。", booth:null },
-    { id:"m13", name:"山野美容商事（株）", url:"https://www.yamano.com/", catch:"身体が楽になるDENBA空間体験会", booth:null },
-    { id:"m14", name:"滝川株式会社", url:"https://takigawa.co.jp/", catch:"", booth:null },
-    { id:"m15", name:"㈱ナルトシザー", url:"https://www.narutoscissors.co.jp/", catch:"", booth:null },
-    { id:"m16", name:"株式会社武田", url:"https://www.ribiyo-takeda.co.jp/", catch:"その場で実感いただける商品を展示いたします", booth:null },
-    { id:"m17", name:"MY HONEY", url:"https://www.myhoneyjapan.com/", catch:"生はちみつを使用したインナーケア、シャンプートリートメントの生はちみつ体験", booth:null },
-    { id:"m18", name:"日理株式会社", url:"https://www.nichiri.com/", catch:"美と健康をテーマにした、体感型ブースとなっております。是非体験にお立ち寄りください。", booth:null },
-    { id:"m19", name:"モロッカンオイルジャパン株式会社", url:"https://jp.moroccanoil.com/", catch:"「そのオイル、お客様はもう知っています。」高い認知度を誇るヘアケアブランド「モロッカンオイル」は、説明不要のブランド。高い購買率、集客力、利益率で、サロン様の売上に直結します。", booth:null },
-    { id:"m20", name:"株式会社サンコール", url:"https://suncall-net.co.jp/index.html", catch:"最先端成分配合ケア祭り", booth:null },
-    { id:"m21", name:"株式会社BJC", url:"https://bjc-group.co.jp/", catch:"【HARIの力で毎日のスキンケアをサロン級に】透明感で、差をつけるV3美容針プライマーや、SPICAREが誇る2種の美容針配合の濃密クリームといった新商品を実際に体感して感動の美肌体験を！さらに王道のV3ファンデーションやラッシュアディクトの体験スペースも！", booth:null },
-    { id:"m22", name:"株式会社UTOWA", url:"https://www.utowa.co.jp/", catch:"クレンジングオイルのパイオニア【UTOWA】。1967年の国内生産第一号発売より、ウエムラファミリーが手がけてきたクレンジングオイルは、現在のUTOWA製品を含め20種類を超え進化を続けています。", booth:null },
-    { id:"m23", name:"株式会社千代田化学", url:"https://chiyodakagaku.com/", catch:"千代田化学が今目指すのは、サロンの単価アップ＆コストダウン。サロンに求められる製品作りを目指してます！", booth:null },
-    { id:"m24", name:"株式会社charme", url:"", catch:"手のひらサイズのホームページと「予約が増える。手間が減る。サロンが変わる。」予約システム", booth:null },
-    { id:"m25", name:"株式会社ミルボン", url:"https://www.milbon.com/ja/", catch:"サロンカラーは、まだ進化できる。「プレトワ」で拓く新しい価値提案。", booth:null },
-    { id:"m26", name:"株式会社soeasy", url:"https://www.soeasy.co.jp/", catch:"教育・育成には困らないナレッジ共有アプリ", booth:null },
-    { id:"m27", name:"デミコスメティクス", url:"https://www.demi.nicca.co.jp/", catch:"日韓同時発売の新スタイリングブランド『FeTeE』の体験＆ご案内", booth:null },
-    { id:"m28", name:"株式会社MUK", url:"https://muk-inc.com/", catch:"", booth:null },
-    { id:"m29", name:"Dyson", url:"https://www.dyson.co.jp/ja", catch:"ドライヤーやスタイラーだけでなく、スティック掃除機や空気清浄機もお試しいただけます！", booth:null },
-    { id:"m30", name:"ネクストシザーズ", url:"https://nextscissors.jp/", catch:"シザーサンプルの貸し出しをしまして、実際にお試しいただけます", booth:null },
-    { id:"m31", name:"㈱F'sビューティー", url:"https://fs.alpsion.com/", catch:"敏感肌の方へスキンケア（手荒れ）及びジアミン対策", booth:null },
-    { id:"m32", name:"株式会社b-ex", url:"https://www.b-exgroup.com/", catch:"", booth:null },
-    { id:"m33", name:"株式会社ビーファースト", url:"https://www.bfirst.jp/", catch:"ドラッグストアで買う当たり前を美容室で買う当たり前に", booth:null },
-    { id:"m34", name:"日本グランデックス化粧品株式会社", url:"http://www.altisola.co.jp/index.php", catch:"集客出来るハリコシ艶カラーメニュー", booth:null },
-    { id:"m35", name:"エステシモ", url:"https://www.estessimo.jp/", catch:"お客様本来の美しさを引き出すホリスティック体験ができるブースをご用意。シャンプーやトリートメントだけでなくお顔のスキンケア製品のタッチアップやヘッドスパの後のフルーツティー試飲、頭皮専用スコープでの頭皮診断を体験できます。", booth:null },
-    { id:"m36", name:"中野製薬株式会社", url:"https://www.nakano-seiyaku.co.jp/", catch:"年末商戦にお勧めの商材を展示。人時生産性向上、コストダウン・わかりやすい結果のトリートメント「ソンク」を推しています！パフュームオイルの「ソンクリフレコートヘアオイル」も今夏新リリース。", booth:null },
-    { id:"m37", name:"株式会社イムダイン", url:"https://immudyne.co.jp/", catch:"インナービューティー", booth:null },
-    { id:"m38", name:"イーラル株式会社", url:"https://eral.co.jp/", catch:"髪の未来は、頭皮から。ヘッドスパを\u201c施術\u201dから\u201c価値\u201dへ。", booth:null },
-    { id:"m39", name:"Jade Japan株式会社", url:"https://jade-japan.com/", catch:"10月中旬発売 新作LOAハンドクリーム 先行展示", booth:null },
-    { id:"m40", name:"株式会社ハホニコ", url:"https://hahonico.com/", catch:"レブリン酸やトステアを初めとした髪質改善に、セラックを配合した新商品を展示します。", booth:null },
-    { id:"m41", name:"AVEDA", url:"https://www.aveda.jp/", catch:"AVEDAカラーは「96%以上が自然界由来成分で、髪にも地球にも優しく、ツヤと色持ちが続くヴィーガンカラー」です", booth:null },
-    { id:"m42", name:"アリミノ", url:"https://www.arimino.co.jp/", catch:"プレミアムヘアケアと仕上げのスプレーで艶髪作りのご提案をさせて頂きます！", booth:null },
-    { id:"m43", name:"ヘンケルジャパン（株）", url:"https://www.henkel.co.jp/", catch:"", booth:null },
-    { id:"m44", name:"カエタステクノロジー", url:"https://caetus.co.jp/", catch:"”手荒れ”・”ジアミンアレルギー”ゼロを目指すメーカー", booth:null },
-    { id:"m45", name:"株式会社ナプラ", url:"https://www.napla.co.jp/", catch:"A Recommendation That Connects", booth:null },
-    { id:"m46", name:"ホーユー株式会社", url:"https://www.hoyu.co.jp/", catch:"カラーだけでは無い⁉️ホーユー", booth:null },
-    { id:"m47", name:"株式会社pad (1DK)", url:"https://1-d-k.com/", catch:"個性を惹き立てるスタイリングブランド「1DK」新商品もご覧いただけます！", booth:null },
-    { id:"m48", name:"ニューウェイジャパン株式会社", url:"https://www.newayjapan.com/", catch:"時間を増やさず、価値を増やす。ナノアミノプレミアムクオリア", booth:null },
-    { id:"m49", name:"株式会社パシフィックプロダクツ", url:"https://www.pacific-products.co.jp/", catch:"アウトバスブランド「ネイ」朝の仕上がりを夜まで。ホームケア版システムトリートメント！", booth:null },
-    { id:"m50", name:"株式会社LOWBAL", url:"https://lowbal.co.jp/", catch:"製品とAIを掛け合わせて全てのサロンワークを最適化！", booth:null },
-    { id:"m51", name:"日本ロレアル株式会社", url:"https://www.loreal.com/ja-jp/japan/", catch:"", booth:null },
-    { id:"m52", name:"ルベル", url:"https://www.lebel.co.jp/", catch:"真面目さ業界No.1", booth:null },
-    { id:"m53", name:"ウエラジャパン合同会社", url:"https://www.wella.co.jp/", catch:"年末繁忙期に売り上げ、利益UPができる商品をご用意しております。", booth:null },
-    { id:"m54", name:"香栄化学株式会社", url:"https://www.koei-kagaku.co.jp/", catch:"エイジング毛のケアに最適な商品ラインアップ", booth:null },
-    { id:"m55", name:"リアル化学株式会社", url:"https://www.real-chemical.co.jp/", catch:"①ヘアカラーに+30分で出来る美還元髪質改善メニュー提案 ②パーマ専用スタイリング剤の展示", booth:null },
-    { id:"m56", name:"コーセープロフェッショナル㈱", url:"https://www.koseprofessional.co.jp/", catch:"話題のワンバイコーセー新製品を体感していただけます。年末商戦にぴったりな対象商品を当日ご購入いただくと、お勧めアイテムのミニボトルをプレゼント！", booth:null },
-    { id:"m57", name:"株式会社ユーグレナ", url:"https://www.euglena.jp/", catch:"老化細胞除去で一歩先のエイジングケアを", booth:null },
-    { id:"m58", name:"株式会社Kirala", url:"https://corp.kirala.jp/", catch:"使うたび、輝きが進化する。独自技術を結集した「Shine Rebirth Hair Dryer JEWEL」を発売。当社史上初「LLLT（低出力レーザー）」を搭載し、日常のケアの中で無理なく髪と頭皮をダブルケア。", booth:null },
-    { id:"m59", name:"株式会社IL(パリジェンヌ)", url:"https://parisienne-group.jp/", catch:"リニューアルしたパリジェンヌラッシュリフト2.0のご案内、パリブロウ商品のご案内", booth:null },
-    { id:"m60", name:"株式会社KINUJO", url:"https://kinujo.jp/", catch:"", booth:null },
-    { id:"m61", name:"UnG", url:"https://ung.jp/", catch:"「美容師が本当に欲しかった、\u201cあと少し\u201dを。」美容の現場から生まれる声を商品へ。質感・テクスチャー・使いやすさにこだわり、使い続けたくなるプロダクトを追求しています。", booth:null },
-    { id:"m62", name:"ヤーマン㈱", url:"https://www.ya-man-tokyo-japan.com/", catch:"サロンごとに特別企画やデモ機の貸出等対応致しますのでご相談下さい。", booth:null },
-    { id:"m63", name:"株式会社自由が丘クリニックドクターズコスメティクス", url:"https://jcdc.co.jp/", catch:"診察室生まれのリアルドクターズコスメ。無料肌診断で商品の魅力を体感！当日限定セールも開催中！", booth:null },
-    { id:"m64", name:"SHIGETA", url:"https://shigetaparis.jp/", catch:"髪を整える、その先に。香りと植物で、心まで満たすビューティーケアを。SHIGETAならではの「内側からの美しさ」を美容室での施術にプラスしませんか？", booth:null },
-    { id:"m65", name:"㈱野口総合研究所", url:"https://www.noguchi-soken.jp/", catch:"天然の力で目覚めさせ、最大限に活かす", booth:null },
-    { id:"m66", name:"（株）大西", url:"https://www.onbeauty.biz/", catch:"", booth:null },
-    { id:"m67", name:"株式会社アマトラ", url:"https://amatora.jp/", catch:"高単価✖️高リピートを実現するプレミアムヘアケア提案", booth:null },
-    { id:"m68", name:"株式会社セフティ", url:"https://www.safety-co.jp/", catch:"New COCUU ミニサンプルプレゼント", booth:null },
-    { id:"m69", name:"株式会社サクシード", url:"https://www.succeedscissors.com/", catch:"シザーズに対しての不満、不安、不快を解消させていただきます！", booth:null }
+    { id:"m01", area:"D", name:"えがお老眼鏡", kana:"", url:"https://egao-salon.jp/reading-glasses/", catch:"えがお老眼鏡は、「アクセサリーやファッションとして楽しむ」新しいスタイルを提案しています。" },
+    { id:"m02", area:"D", name:"セフィーヌ", kana:"", url:"https://cefinecosmetics.co.jp/", catch:"やさしさも効果も実感できる自然派コスメ。冬のお肌悩みを解決へ導く、効果実感型アイテムをぜひご体験ください！" },
+    { id:"m03", area:"E", name:"GOALD JAPAN", kana:"ゴールドジャパン", url:"https://coar.jp/", catch:"メンズスタイルのクオリティを高める、最新トレンド商材をご体感ください。" },
+    { id:"m05", area:"D", name:"株式会社ワイマック ジュエル・コスメティックス", kana:"", url:"https://jewel-cosme.jp/", catch:"エイジングケアの商材をご用意しております！" },
+    { id:"m06", area:"E", name:"株式会社サインド", kana:"", url:"https://cynd.co.jp/", catch:"他店と圧倒的な差をつける、次世代のサロンDX（デジタルトランスフォーメーション）を体感ください！予約アプリと連動するスマートミラーのご紹介。サロンの未来を変える「実機体験」をブースで実施します。" },
+    { id:"m07", area:"W", name:"フェザー株式会社", kana:"", url:"https://leonka.jp/", catch:"着替える、髪色。ちょいぷらす（10/1発売新商品あります）" },
+    { id:"m08", area:"B", name:"（有）水谷理美容鋏製作所（ミズタニシザーズ）", kana:"REUZEL ルーゾー", url:"https://www.mizutani-scissors.com/", catch:"" },
+    { id:"m09", area:"C", name:"オラプレックス/オリオセタ", kana:"OLAPLEX", url:"https://olaplex.jp/", catch:"ガモウオリジナルメーカー" },
+    { id:"m10", area:"A", name:"タカラベルモント(株)", kana:"", url:"https://www.takarabelmont.com/", catch:"" },
+    { id:"m11", area:"A", name:"株式会社マイクロバブル・ジャパン", kana:"キヌージョ", url:"https://marbb.com/en/", catch:"お水のみの髪質改善して見ませんか？" },
+    { id:"m12", area:"B", name:"株式会社RadiAct（PROLASH）", kana:"ラディアクト プロラッシュ", url:"https://prolash.info/", catch:"まつげエクステのLED施術用ライトを体験可能です。" },
+    { id:"m13", area:"W", name:"山野美容商事（株）", kana:"ヤマノ", url:"https://www.yamano.com/", catch:"身体が楽になるDENBA空間体験会" },
+    { id:"m14", area:"W", name:"滝川株式会社", kana:"タキガワ", url:"https://takigawa.co.jp/", catch:"" },
+    { id:"m15", area:"C", name:"㈱ナルトシザー", kana:"", url:"https://www.narutoscissors.co.jp/", catch:"" },
+    { id:"m16", area:"W", name:"株式会社武田", kana:"タケダ", url:"https://www.ribiyo-takeda.co.jp/", catch:"その場で実感いただける商品を展示いたします" },
+    { id:"m17", area:"C", name:"MY HONEY", kana:"マイハニー", url:"https://www.myhoneyjapan.com/", catch:"生はちみつを使用したインナーケア、シャンプートリートメントの生はちみつ体験" },
+    { id:"m18", area:"W", name:"日理株式会社", kana:"ニチリ", url:"https://www.nichiri.com/", catch:"美と健康をテーマにした、体感型ブースとなっております。是非体験にお立ち寄りください。" },
+    { id:"m19", area:"C", name:"モロッカンオイルジャパン株式会社", kana:"MOROCCANOIL", url:"https://jp.moroccanoil.com/", catch:"「そのオイル、お客様はもう知っています。」高い認知度を誇るヘアケアブランド「モロッカンオイル」は、説明不要のブランド。高い購買率、集客力、利益率で、サロン様の売上に直結します。" },
+    { id:"m20", area:"A", name:"株式会社サンコール", kana:"", url:"https://suncall-net.co.jp/index.html", catch:"最先端成分配合ケア祭り" },
+    { id:"m21", area:"D", name:"株式会社BJC", kana:"ビージェイシー", url:"https://bjc-group.co.jp/", catch:"【HARIの力で毎日のスキンケアをサロン級に】透明感で、差をつけるV3美容針プライマーや、SPICAREが誇る2種の美容針配合の濃密クリームといった新商品を実際に体感して感動の美肌体験を！さらに王道のV3ファンデーションやラッシュアディクトの体験スペースも！" },
+    { id:"m22", area:"D", name:"株式会社UTOWA", kana:"ウトワ", url:"https://www.utowa.co.jp/", catch:"クレンジングオイルのパイオニア【UTOWA】。1967年の国内生産第一号発売より、ウエムラファミリーが手がけてきたクレンジングオイルは、現在のUTOWA製品を含め20種類を超え進化を続けています。" },
+    { id:"m23", area:"A", name:"株式会社千代田化学", kana:"チヨダカガク", url:"https://chiyodakagaku.com/", catch:"千代田化学が今目指すのは、サロンの単価アップ＆コストダウン。サロンに求められる製品作りを目指してます！" },
+    { id:"m24", area:"A", name:"株式会社charme", kana:"シャルム", url:"", catch:"手のひらサイズのホームページと「予約が増える。手間が減る。サロンが変わる。」予約システム" },
+    { id:"m25", area:"A", name:"株式会社ミルボン", kana:"MILBON", url:"https://www.milbon.com/ja/", catch:"サロンカラーは、まだ進化できる。「プレトワ」で拓く新しい価値提案。" },
+    { id:"m26", area:"E", name:"株式会社soeasy", kana:"ソーイージー", url:"https://www.soeasy.co.jp/", catch:"教育・育成には困らないナレッジ共有アプリ" },
+    { id:"m27", area:"A", name:"デミコスメティクス", kana:"DEMI", url:"https://www.demi.nicca.co.jp/", catch:"日韓同時発売の新スタイリングブランド『FeTeE』の体験＆ご案内" },
+    { id:"m28", area:"E", name:"株式会社MUK", kana:"ムック", url:"https://muk-inc.com/", catch:"" },
+    { id:"m29", area:"E", name:"Dyson", kana:"ダイソン", url:"https://www.dyson.co.jp/ja", catch:"ドライヤーやスタイラーだけでなく、スティック掃除機や空気清浄機もお試しいただけます！" },
+    { id:"m30", area:"A", name:"ネクストシザーズ", kana:"", url:"https://nextscissors.jp/", catch:"シザーサンプルの貸し出しをしまして、実際にお試しいただけます" },
+    { id:"m31", area:"B", name:"㈱F'sビューティー", kana:"エフズビューティー", url:"https://fs.alpsion.com/", catch:"敏感肌の方へスキンケア（手荒れ）及びジアミン対策" },
+    { id:"m32", area:"C", name:"株式会社b-ex", kana:"ビーエックス", url:"https://www.b-exgroup.com/", catch:"" },
+    { id:"m33", area:"D", name:"株式会社ビーファースト", kana:"", url:"https://www.bfirst.jp/", catch:"ドラッグストアで買う当たり前を美容室で買う当たり前に" },
+    { id:"m34", area:"A", name:"日本グランデックス化粧品株式会社", kana:"", url:"http://www.altisola.co.jp/index.php", catch:"集客出来るハリコシ艶カラーメニュー" },
+    { id:"m35", area:"B", name:"エステシモ", kana:"", url:"https://www.estessimo.jp/", catch:"お客様本来の美しさを引き出すホリスティック体験ができるブースをご用意。シャンプーやトリートメントだけでなくお顔のスキンケア製品のタッチアップやヘッドスパの後のフルーツティー試飲、頭皮専用スコープでの頭皮診断を体験できます。" },
+    { id:"m36", area:"D", name:"中野製薬株式会社", kana:"ナカノセイヤク", url:"https://www.nakano-seiyaku.co.jp/", catch:"年末商戦にお勧めの商材を展示。人時生産性向上、コストダウン・わかりやすい結果のトリートメント「ソンク」を推しています！パフュームオイルの「ソンクリフレコートヘアオイル」も今夏新リリース。" },
+    { id:"m37", area:"B", name:"株式会社イムダイン", kana:"", url:"https://immudyne.co.jp/", catch:"インナービューティー" },
+    { id:"m38", area:"A", name:"イーラル株式会社", kana:"セグベル", url:"https://eral.co.jp/", catch:"髪の未来は、頭皮から。ヘッドスパを\u201c施術\u201dから\u201c価値\u201dへ。" },
+    { id:"m39", area:"E", name:"Jade Japan株式会社", kana:"ジェイドジャパン LOA ロア", url:"https://jade-japan.com/", catch:"10月中旬発売 新作LOAハンドクリーム 先行展示" },
+    { id:"m40", area:"B", name:"株式会社ハホニコ", kana:"", url:"https://hahonico.com/", catch:"レブリン酸やトステアを初めとした髪質改善に、セラックを配合した新商品を展示します。" },
+    { id:"m41", area:"C", name:"AVEDA", kana:"アヴェダ", url:"https://www.aveda.jp/", catch:"AVEDAカラーは「96%以上が自然界由来成分で、髪にも地球にも優しく、ツヤと色持ちが続くヴィーガンカラー」です" },
+    { id:"m42", area:"C", name:"アリミノ", kana:"", url:"https://www.arimino.co.jp/", catch:"プレミアムヘアケアと仕上げのスプレーで艶髪作りのご提案をさせて頂きます！" },
+    { id:"m43", area:"A", name:"ヘンケルジャパン（株）", kana:"シュワルツコフ", url:"https://www.henkel.co.jp/", catch:"" },
+    { id:"m44", area:"D", name:"カエタステクノロジー", kana:"", url:"https://caetus.co.jp/", catch:"”手荒れ”・”ジアミンアレルギー”ゼロを目指すメーカー" },
+    { id:"m45", area:"D", name:"株式会社ナプラ", kana:"", url:"https://www.napla.co.jp/", catch:"A Recommendation That Connects" },
+    { id:"m46", area:"A", name:"ホーユー株式会社", kana:"", url:"https://www.hoyu.co.jp/", catch:"カラーだけでは無い⁉️ホーユー" },
+    { id:"m47", area:"E", name:"株式会社pad (1DK)", kana:"パッド ワンディーケー", url:"https://1-d-k.com/", catch:"個性を惹き立てるスタイリングブランド「1DK」新商品もご覧いただけます！" },
+    { id:"m48", area:"A", name:"ニューウェイジャパン株式会社", kana:"", url:"https://www.newayjapan.com/", catch:"時間を増やさず、価値を増やす。ナノアミノプレミアムクオリア" },
+    { id:"m49", area:"B", name:"株式会社パシフィックプロダクツ", kana:"", url:"https://www.pacific-products.co.jp/", catch:"アウトバスブランド「ネイ」朝の仕上がりを夜まで。ホームケア版システムトリートメント！" },
+    { id:"m50", area:"E", name:"株式会社LOWBAL", kana:"ローバル LOBAL", url:"https://lowbal.co.jp/", catch:"製品とAIを掛け合わせて全てのサロンワークを最適化！" },
+    { id:"m51", area:"D", name:"日本ロレアル株式会社", kana:"L'OREAL", url:"https://www.loreal.com/ja-jp/japan/", catch:"" },
+    { id:"m52", area:"C", name:"ルベル", kana:"LEBEL", url:"https://www.lebel.co.jp/", catch:"真面目さ業界No.1" },
+    { id:"m53", area:"B", name:"ウエラジャパン合同会社", kana:"WELLA", url:"https://www.wella.co.jp/", catch:"年末繁忙期に売り上げ、利益UPができる商品をご用意しております。" },
+    { id:"m54", area:"C", name:"香栄化学株式会社", kana:"コウエイカガク", url:"https://www.koei-kagaku.co.jp/", catch:"エイジング毛のケアに最適な商品ラインアップ" },
+    { id:"m55", area:"C", name:"リアル化学株式会社", kana:"リアルカガク", url:"https://www.real-chemical.co.jp/", catch:"①ヘアカラーに+30分で出来る美還元髪質改善メニュー提案 ②パーマ専用スタイリング剤の展示" },
+    { id:"m56", area:"B", name:"コーセープロフェッショナル㈱", kana:"KOSE", url:"https://www.koseprofessional.co.jp/", catch:"話題のワンバイコーセー新製品を体感していただけます。年末商戦にぴったりな対象商品を当日ご購入いただくと、お勧めアイテムのミニボトルをプレゼント！" },
+    { id:"m57", area:"D", name:"株式会社ユーグレナ", kana:"", url:"https://www.euglena.jp/", catch:"老化細胞除去で一歩先のエイジングケアを" },
+    { id:"m58", area:"A", name:"株式会社Kirala", kana:"キララ", url:"https://corp.kirala.jp/", catch:"使うたび、輝きが進化する。独自技術を結集した「Shine Rebirth Hair Dryer JEWEL」を発売。当社史上初「LLLT（低出力レーザー）」を搭載し、日常のケアの中で無理なく髪と頭皮をダブルケア。" },
+    { id:"m59", area:"B", name:"株式会社IL(パリジェンヌ)", kana:"", url:"https://parisienne-group.jp/", catch:"リニューアルしたパリジェンヌラッシュリフト2.0のご案内、パリブロウ商品のご案内" },
+    { id:"m60", area:"A", name:"株式会社KINUJO", kana:"キヌージョ マイクロバブル", url:"https://kinujo.jp/", catch:"マイクロバブル・ジャパンと合同ブースで出展します。" },
+    { id:"m61", area:"E", name:"UnG", kana:"アンジー", url:"https://ung.jp/", catch:"「美容師が本当に欲しかった、\u201cあと少し\u201dを。」美容の現場から生まれる声を商品へ。質感・テクスチャー・使いやすさにこだわり、使い続けたくなるプロダクトを追求しています。" },
+    { id:"m62", area:"A", name:"ヤーマン㈱", kana:"YA-MAN", url:"https://www.ya-man-tokyo-japan.com/", catch:"サロンごとに特別企画やデモ機の貸出等対応致しますのでご相談下さい。" },
+    { id:"m63", area:"B", name:"株式会社自由が丘クリニックドクターズコスメティクス", kana:"ジユウガオカ", url:"https://jcdc.co.jp/", catch:"診察室生まれのリアルドクターズコスメ。無料肌診断で商品の魅力を体感！当日限定セールも開催中！" },
+    { id:"m64", area:"B", name:"SHIGETA", kana:"シゲタ", url:"https://shigetaparis.jp/", catch:"髪を整える、その先に。香りと植物で、心まで満たすビューティーケアを。SHIGETAならではの「内側からの美しさ」を美容室での施術にプラスしませんか？" },
+    { id:"m65", area:"D", name:"㈱野口総合研究所", kana:"ノグチソウケン", url:"https://www.noguchi-soken.jp/", catch:"天然の力で目覚めさせ、最大限に活かす" },
+    { id:"m66", area:"W", name:"（株）大西", kana:"オオニシ", url:"https://www.onbeauty.biz/", catch:"" },
+    { id:"m67", area:"A", name:"株式会社アマトラ", kana:"", url:"https://amatora.jp/", catch:"高単価✖️高リピートを実現するプレミアムヘアケア提案" },
+    { id:"m68", area:"A", name:"株式会社セフティ", kana:"COCUU コキュウ", url:"https://www.safety-co.jp/", catch:"New COCUU ミニサンプルプレゼント" },
+    { id:"m69", area:"D", name:"株式会社サクシード", kana:"", url:"https://www.succeedscissors.com/", catch:"シザーズに対しての不満、不安、不快を解消させていただきます！" }
   ];
 
   const grid = document.getElementById("exhibitorGrid");
   const countEl = document.getElementById("exhibitorCount");
   const searchInput = document.getElementById("exhibitorSearch");
+  const areaBox = document.getElementById("exhibitorAreas");
+  const mapAreaBox = document.getElementById("mapAreas");
+
+  let currentArea = ""; // "" = すべて
+
+  // 検索用の正規化：全角/半角・大文字/小文字・ひらがな/カタカナ・空白の違いを吸収
+  function normalize(s) {
+    return (s || "")
+      .normalize("NFKC")
+      .toLowerCase()
+      .replace(/[\u3041-\u3096]/g, function (c) {
+        return String.fromCharCode(c.charCodeAt(0) + 0x60);
+      })
+      .replace(/[\s・･\-ー（）()]/g, "");
+  }
+  exhibitors.forEach(function (ex) {
+    ex._search = normalize(ex.name + " " + ex.kana);
+  });
 
   function faviconUrl(url) {
     if (!url) return null;
@@ -700,19 +907,15 @@
   }
 
   function createCard(ex) {
+    const area = areaInfo(ex.area);
     const card = document.createElement(ex.url ? "a" : "div");
     card.className = "exhibitor-card";
+    card.style.setProperty("--card-color", area.color);
+    card.style.setProperty("--card-bg", area.bg);
     if (ex.url) {
       card.href = ex.url;
       card.target = "_blank";
       card.rel = "noopener";
-    }
-
-    if (ex.booth) {
-      const booth = document.createElement("div");
-      booth.className = "exhibitor-booth";
-      booth.textContent = "No." + ex.booth;
-      card.appendChild(booth);
     }
 
     const head = document.createElement("div");
@@ -721,7 +924,8 @@
     const logoBox = document.createElement("div");
     logoBox.className = "exhibitor-logo";
     const img = document.createElement("img");
-    img.alt = ex.name;
+    img.alt = "";
+    img.loading = "lazy";
     img.src = "images/logos/" + ex.id + ".png";
     img.onerror = function () {
       const favicon = faviconUrl(ex.url);
@@ -732,7 +936,7 @@
         logoBox.innerHTML = "";
         const span = document.createElement("span");
         span.className = "logo-fallback";
-        span.textContent = ex.name.charAt(0);
+        span.textContent = ex.name.replace(/^(株式会社|（株）|\(株\)|㈱|（有）)/, "").charAt(0);
         logoBox.appendChild(span);
       }
     };
@@ -753,53 +957,124 @@
       card.appendChild(catchEl);
     }
 
+    const foot = document.createElement("div");
+    foot.className = "exhibitor-foot";
+    if (ex.area) {
+      const badge = document.createElement("span");
+      badge.className = "exhibitor-area";
+      badge.textContent = area.label;
+      foot.appendChild(badge);
+    }
     if (ex.url) {
       const link = document.createElement("span");
       link.className = "exhibitor-link";
       link.textContent = "HPを見る →";
-      card.appendChild(link);
+      foot.appendChild(link);
     }
+    if (foot.children.length) card.appendChild(foot);
 
     return card;
   }
 
+  function areaOrder(key) {
+    const i = AREAS.findIndex(function (a) { return a.key === key; });
+    return i === -1 ? AREAS.length : i;
+  }
+
   function sortedExhibitors() {
     return exhibitors.slice().sort(function (a, b) {
-      if (a.booth && b.booth) return a.booth - b.booth;
-      if (a.booth) return -1;
-      if (b.booth) return 1;
+      const d = areaOrder(a.area) - areaOrder(b.area);
+      if (d !== 0) return d;
       return a.name.localeCompare(b.name, "ja");
     });
   }
 
-  function render(list) {
+  function filtered() {
+    const q = normalize(searchInput.value.trim());
+    return sortedExhibitors().filter(function (ex) {
+      if (currentArea && ex.area !== currentArea) return false;
+      if (q && ex._search.indexOf(q) === -1) return false;
+      return true;
+    });
+  }
+
+  function render() {
+    const list = filtered();
     grid.innerHTML = "";
     if (list.length === 0) {
       const empty = document.createElement("div");
       empty.className = "exhibitor-empty";
-      empty.textContent = "該当するメーカーが見つかりませんでした";
+      empty.textContent = "該当するメーカーが見つかりません。表記を変えるか、エリアを「すべて」にしてお試しください。";
       grid.appendChild(empty);
       countEl.textContent = "";
       return;
     }
-    countEl.textContent = list.length + "社が出展予定";
+    countEl.textContent = (currentArea || searchInput.value.trim())
+      ? list.length + "社が該当"
+      : list.length + "社が出展";
+
+    let lastArea = null;
     list.forEach(function (ex) {
+      if (ex.area !== lastArea) {
+        lastArea = ex.area;
+        const info = areaInfo(ex.area);
+        const n = list.filter(function (x) { return x.area === ex.area; }).length;
+        const h = document.createElement("div");
+        h.className = "exhibitor-group-head";
+        h.style.setProperty("--group-color", info.color);
+        h.innerHTML = "";
+        h.appendChild(document.createTextNode(info.label));
+        const small = document.createElement("small");
+        small.textContent = n + "社";
+        h.appendChild(small);
+        grid.appendChild(h);
+      }
       grid.appendChild(createCard(ex));
     });
   }
 
-  render(sortedExhibitors());
+  // エリアボタン（一覧の上と、マップの下に同じものを設置）
+  function buildChips(container, jumpToList) {
+    const items = [{ key:"", label:"すべて", color:"#bbb", bg:"#f2f2f2" }].concat(AREAS);
+    items.forEach(function (a) {
+      const n = a.key
+        ? exhibitors.filter(function (ex) { return ex.area === a.key; }).length
+        : exhibitors.length;
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "area-chip";
+      btn.dataset.area = a.key;
+      btn.style.setProperty("--chip-color", a.color);
+      btn.style.setProperty("--chip-bg", a.bg);
+      btn.innerHTML = '<span class="dot" aria-hidden="true"></span>';
+      btn.appendChild(document.createTextNode(a.label));
+      const num = document.createElement("span");
+      num.className = "num";
+      num.textContent = n + "社";
+      btn.appendChild(num);
+      btn.addEventListener("click", function () {
+        setArea(a.key);
+        if (jumpToList) {
+          document.getElementById("exhibitor").scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      });
+      container.appendChild(btn);
+    });
+  }
 
-  searchInput.addEventListener("input", function () {
-    const q = this.value.trim();
-    if (!q) {
-      render(sortedExhibitors());
-      return;
-    }
-    render(sortedExhibitors().filter(function (ex) {
-      return ex.name.includes(q);
-    }));
-  });
+  function setArea(key) {
+    currentArea = key;
+    document.querySelectorAll(".area-chip").forEach(function (b) {
+      b.setAttribute("aria-pressed", b.dataset.area === key ? "true" : "false");
+    });
+    render();
+  }
+
+  buildChips(areaBox, false);
+  buildChips(mapAreaBox, true);
+  setArea("");
+
+  searchInput.addEventListener("input", render);
 })();
 </script>
 </body>
